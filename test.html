@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 결과 출력에 사용되는 mocha css를 불러옵니다. -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css" />
+        <!-- Mocha 프레임워크 코드를 불러옵니다. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+        <script>
+            mocha.setup("bdd"); // 기본 셋업
+        </script>
+        <!-- chai를 불러옵니다 -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+        <script>
+            // chai의 다양한 기능 중, assert를 전역에 선언합니다.
+            let assert = chai.assert;
+        </script>
+    </head>
+
+    <body>
+        <script>
+            const pow = (x, n) => {
+                let result = 1;
+
+                for (let i = 0; i < n; i++) {
+                    result *= x;
+                }
+
+                return result;
+            };
+        </script>
+
+        <!-- 테스트(describe, it...)가 있는 스크립트를 불러옵니다. -->
+        <script src="testAndMocha.js"></script>
+
+        <!-- 테스트 결과를 id가 "mocha"인 요소에 출력하도록 합니다.-->
+        <div id="mocha"></div>
+
+        <!-- 테스트를 실행합니다! -->
+        <script>
+            mocha.run();
+        </script>
+    </body>
+</html>
+
+<!--
+    위 페이지는 다섯 부분으로 나눌 수 있다.
+    1. <head>: 테스트에 필요한 서드파티 라이브러리와 스타일을 불러옴
+    2. <script>: 테스트할 함수(pow)의 코드
+    3. 테스트: describe('pow', ...)를 외부 스크립트(testAndMocha.js)에서 불러옴
+    4. HTML 요소: <div id="mocha">: Mocha 실행 결과가 출력됨
+    5. mocha.run(): 테스트를 실행시켜주는 명령어
+-->
+
+<!-- 
+    스펙 개선하기
+    스펙에 테스트를 추가하는 방법
+    1. 기존 it 블록에 assert를 하나 더 추가하기.
+
+    2. 테스트를 하나 더 추가하기(it 블록 하나 더 추가하기.)
+
+
+    assert에서 에러가 발생하면 it 블록은 즉시 종료된다. 따라서 기존 it 블록에 assert를 하나 더 추가하면 첫 번째 assert가 실패했을 때 두번 째 assert의 결과를 얻을 수 없다.
+
+    그러므로 두번 째 방법처럼 it 블록을 하나더 추가해 테스트를 분리해서 작성하는게 더 많은 정보를 얻어낼 수 있으므로 두번 째 방법이 좋음
+
+    테스트 작성 시의 규칙: 테스트 하나에선 한 가지만 확인할 것
+ -->

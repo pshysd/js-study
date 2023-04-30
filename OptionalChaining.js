@@ -35,12 +35,12 @@
 
     user = null;
     console.log(`user가 null이라면?: ${user?.address.detailAddress}`); // undefined
-    console.log(`user?.address.detailAddress: ${user?.address.detailAddress}`)
+    console.log(`user?.address.detailAddress: ${user?.address.detailAddress}`);
     user = {
         name: 'SH',
         age: 26,
         sex: 'M'
-    }
+    };
 
     // console.log(`user가 null이 아닌데 address property가 없을 경우: ${user?.address.detailAddress}`) // 에러발생
 }
@@ -56,4 +56,85 @@
     // ReferenceError: user is not defined
 
     옵셔널 체이닝은 선언이 완료된 변수만을 대상으로 동작한다.
+ */
+
+
+// 단락 평가: ?.는 왼쪽 평가 대상에 값이 없으면 즉시 평가를 멈춘다.
+{
+    let user = null;
+    let x = 0;
+
+    user?.sayHi(x++); // 아무 일도 일어나지 않음
+
+    alert(x); // 0, x가 증가하지 않았음
+
+    // user가 null이므로 sayHi가 있든없든 체크할 필요도 없이 그냥 넘어간다
+}
+
+// ?.() 와 ?.[]
+/* 
+    ?.은 연산자가 아니다. 함수나 대괄호와 함께 동작하는 특별한 문법 구조체이다
+    syntax constuct << ?? 뭔데
+    그냥 문법이라고 하면되지 문법 구조체라니
+ */
+
+{
+    let user1 = {
+        adamin() {
+            alert('관리자 계정입니다.');
+        }
+    };
+    let user2 = {};
+
+    user1.admin?.(); // 관리자 계정입니다.
+    user2.admin?.();
+}
+
+/* 
+    두 상황 모두에서 user obj는 존재하기 때문에 admin prop에 .만 사용해 접근
+    
+    그리고난 후 ?.()를 사용해 admin의 존재 여부를 확인
+    user1엔 admin이 정의되어 있기 때문에 제대로 호출되었으나
+    user2엔 admin이 정의되어 있지 않기 때문에 그냥 평가가 멈추고 만다.
+
+ */
+
+// . 대신 []를 사용해 prop에 접근하는 경우에 ?.[]를 사용할 수도 있다.
+
+{
+    let user1 = {
+        firstName: 'SEONGHYEON',
+    };
+
+    let user2 = null;
+
+    let key = 'firstName';
+
+    alert(user1?.[key]); // SEONGHYEON
+    alert(user2?.[key]); // undefined
+
+    alert(user1?.[key]?.something?.not?.existing); // undefined
+}
+
+// delete와 조합해서 사용할 수도 있다.
+{
+    delete user?.name; // user가 존재할 경우에 user.name을 삭제한다
+    //  == if(user) delete user.name; 과 같다는거
+}
+
+// ?.은 읽기나 삭제에는 사용할 수 있지만 쓰기에는 사용할 수 없다.
+{
+    // user가 존재할 경우 user.name에 값을 쓰려는 의도로 아래와 같이 작성
+    user?.name = 'Violet'; // SyntaxError: Invalid left-hand side in assignment
+    // 에러가 발생하는 이유는 undefined = 'Violet'이 되기 때문
+}
+
+/* 
+    요       약
+    1. obj?.prop - obj가 존재하면 obj.prop을 반환, 아니면 undefined
+    2. obj?.[prop] - obj가 존재하면 obj[prop]을 반환, 아니면 undefined
+    3. obj?.method() - obj가 존재하면 obj.method()를 호출, 아니면 undefined
+
+    - ?.를 계속 연결해서 체인을 만들면 중첩 프로퍼티들에 안전하게 접근 가능
+    - ?.은 ?.왼쪽 평가대상이 없어도 괜찮은 경우에만 선택적으로 사용해야 함.
  */

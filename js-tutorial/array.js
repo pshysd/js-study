@@ -74,9 +74,93 @@
     start와 end는 둘 다 음수일 수도 있는데, 이땐 배열 끝에서부터 요소 개수를 의미한다.
   */
 
-  let arr = ['t','e','s','t'];
+  let arr = ['t', 'e', 's', 't'];
 
-  console.log(arr.slice(1,3)); // 1번째 요소부터 3번째 요소 앞까지 복사
+  console.log(arr.slice(1, 3)); // 1번째 요소부터 3번째 요소 앞까지 복사
 
   console.log(arr.slice(-2)); // -2번째 요소부터 끝까지 복사
 }
+
+{
+  /* 
+  concat(arg1, arg2, ...): 기존 배열의 요소를 사용해 새로운 배열을 만들거나 기존 배열에 요소를 추가하고자 할 때 사용
+  파라미터엔 배열이나 값이 올 수 있다. 갯수 제한x
+   */
+
+  let arr = [1, 2];
+
+  // arr의 모든 요소와 [3, 4]를 합친 새로운 배열 생성
+  console.log(arr.concat([3, 4]));
+
+  // arr의 모든 요소와 [3, 4], [5, 6]을 합친 새로운 배열 생성
+  console.log(arr.concat([3, 4], [5, 6]));
+
+  // arr의 모든 요소와 [3, 4], 5, 6을 합친 새로운 배열 생성
+  console.log(arr.concat([3, 4], 5, 6));
+
+  // 객체가 인자로 넘어오면(배열처럼 보이는 유사 배열 객체이더라도) 객체는 분해되지 않고 통으로 복사되어 더해진다.
+  let arrayLike = {
+    0: 'something',
+    length: 1
+  };
+
+  console.log(arr.concat(arrayLike)); // 1, 2, [object Object]
+
+  // BUT Symbol.isConcatSpreadable이 있으면 concat은 이 객체를 배열처럼 취급하여 property의 값이 더해진다.
+  arrayLike = {
+    0: 'something',
+    1: 'else',
+    [Symbol.isConcatSpreadable]: true,
+    length: 2
+  };
+
+  console.log(arr.concat(arrayLike)); // 1, 2, something, else
+}
+
+{
+  /* 
+    forEach(): 주어진 함수를 배열 요소 각각에 대해 실행할 수 있게 한다. ** 중요 **
+    
+    -형태
+    arr.forEach((item, index, array) => { 콜 백 })
+  */
+
+  ['c', 'js', 'py'].forEach(console.log);
+  /* 
+    c 0 [ 'c', 'js', 'py' ]
+    js 1 [ 'c', 'js', 'py' ]
+    py 2 [ 'c', 'js', 'py' ]
+    형태로 출력됨
+
+    아
+
+    item index array 순으로 출력되는겅네
+  */
+
+  ['c', 'js', 'py'].forEach((item, index, array) => {
+    console.log(`${item} is at index ${index} in ${array}`);
+  });
+
+  /* 
+    c is at index 0 in c,js,py
+    js is at index 1 in c,js,py
+    py is at index 2 in c,js,py
+  */
+}
+
+//  ----------------------- 배열 탐색 -----------------------------
+
+{
+  /* 
+    indexOf(item, from): from부터 시작해 item을 탐색. 찾으면 index 반환, 없으면 -1
+    lastIndexOf: 뒤에서부터 함
+    includes: 찾으면 true, 없으면 false
+
+    얘네들은 동등(==)이 아니고 일치(===)로 검사함
+   */
+
+  const arr = [NaN];
+  console.log(arr.indexOf(NaN)); // -1 (===는 NaN에는 동작하지 않으므로 0이 출력되지 않음)
+  console.log(arr.includes(NaN)); // true (NaN의 여부를 확인) <- 얘만 NaN 검사 가능
+}
+

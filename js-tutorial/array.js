@@ -79,4 +79,59 @@
   console.log(arr.slice(1,3)); // 1번째 요소부터 3번째 요소 앞까지 복사
 
   console.log(arr.slice(-2)); // -2번째 요소부터 끝까지 복사
+
+  /* 
+    slice()는 인수를 하나도 넘기지 않고 호출하여 arr의 복사본을 만들 수 있다.
+    이런 방식은 기존의 배열을 건드리지 않으면서 배열을 조작해 새로운 배열을 만들고자 할 때 자주 사용한다.
+   */
+}
+
+{
+  /* 
+    concat: 기존 배ㅕㅇㄹ의 요소를 사용해 새로운 배열을 만들거나 기존 배열에 요소를 추가하고자 할 때 사용할 수 있다.
+    arr.concat(arg1, arg2 ...): arg엔 배열이나 literal이 올 수 있으며, 갯수엔 제한이 없다.
+    호출하면 arr에 속한 모든 요소와 arg에 속한 모든 요소를 한데 모은 새로운 배열이 반환된다.
+   */
+
+  let arr = [1, 2];
+
+  // arr의 모든 요소와 [3, 4]의 모든 요소를 한데 모은 새로운 배열이 생성됨
+  console.log(arr.concat([3, 4])); // 1, 2, 3, 4
+
+  // arr의 모든 요소와 [3, 4]의 모든 요소, [5, 6]의 모든 요소를 합친 새로운 배열이 생성됨
+  console.log(arr.concat([3, 4], [5, 6])); // 1, 2, 3, 4, 5, 6
+
+  // arr의 모든 요소와 [3, 4]의 모든 요소, 5, 6을 합친 새로운 배열이 생성됨
+  console.log(arr.concat([3, 4], 5, 6));
+
+  // 객체가 인자로 넘어오면(배열처럼 보이는 유사 배열 객체이러라도) 객체는 분해되지 않고 통으로 복사되어 더해진다.
+
+  let arrayLike = {
+    0: "something",
+    length: 1,
+  };
+
+  console.log(arr.concat(arrayLike)); // 1, 2,[objet Object]
+
+  // BUT 유사 배열 객체에 특수한 프로퍼티 Symbol.isConcatSpreadable이 있으면 concat은 이 객체를 배열처럼 취급하여 객체 전체가 아닌 객체 프로퍼티의 값이 더해진다.
+
+  arrayLike = {
+    0: "something",
+    1: "else",
+    [Symbol.isConcatSpreadable]: true,
+    length: 2,
+  };
+
+  console.log(arr.concat(arrayLike)); //1, 2, something, else
+}
+
+{
+  // forEach() - 주어진 함수를 배열 요소 각각에 대해 실행
+  // arr.forEach(function(item, index, array)) {}
+  ["Bilbo", "Gandalf", "Nazgul"].forEach(console.log);
+  ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+    console.log(`${item} is at index ${index} in ${array}`);
+  });
+
+  // 인수로 넘겨준 함수의 리턴 값은 무시된다.
 }

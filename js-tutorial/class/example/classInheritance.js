@@ -77,4 +77,34 @@
 			// arrowFunction의 super는 stop()의 super와 같아서 위 예시는 의도한대로 동작함. 하지만 일반 함수(Function(){})를 사용하면 에러가 발생할 것
 		}
 	}
+	{
+		// 생성자 오버라이딩
+		class Rabbit extends Animal {
+			constructor(name, earLength) {
+				super(name);
+				this.earLength = earLength;
+			}
+		}
+
+		let rabbit = new Rabbit('빨간 토끼', 10);
+		console.log(rabbit.name);
+		console.log(rabbit.earLength);
+	}
+	{
+		// 클래스 필드 오버라이딩
+		class Animal {
+			name = 'animal';
+
+			constructor() {
+				console.log(this.name);
+			}
+		}
+
+		class Rabbit extends Animal {
+			name = 'rabbit';
+		}
+
+		new Animal();
+		new Rabbit();
+	}
 }

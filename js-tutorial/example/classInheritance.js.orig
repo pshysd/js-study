@@ -104,6 +104,7 @@
 			name = 'rabbit';
 		}
 
+<<<<<<< HEAD
 		new Animal(); // animal
 		new Rabbit(); // animal ?
 	}
@@ -127,4 +128,9 @@
 	}
 
 	// 메서드를 사용하거나 getter나 setter를 사용해서 해결해야 함
+=======
+		new Animal();
+		new Rabbit();
+	}
+>>>>>>> cf13a4e ([DOCS] 정리)
 }

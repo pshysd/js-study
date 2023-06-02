@@ -5,22 +5,24 @@
  */
 
 {
-    var name = 'zero'; // (1) 변수 선언 (6) 변수 대입
-    function wow(word) { // (2) 변수 언선 (3) 변수 대입
-        console.log(word + ' ' + name); // (11)
-    }
+	var name = 'zero'; // (1) 변수 선언 (6) 변수 대입
+	function wow(word) {
+		// (2) 변수 언선 (3) 변수 대입
+		console.log(word + ' ' + name); // (11)
+	}
 
-    function say() { // (4) 변수 선언 (5) 변수 대입
-        var name = 'nero'; // (8)
-        console.log(name); // (9)
-        wow('hello'); // (10)
-    }
+	function say() {
+		// (4) 변수 선언 (5) 변수 대입
+		var name = 'nero'; // (8)
+		console.log(name); // (9)
+		wow('hello'); // (10)
+	}
 
-    say(); // (7)
+	say(); // (7)
 
-    // 여기서 결과 값은 nero hello zero
+	// 여기서 결과 값은 nero hello zero
 
-    /* 
+	/* 
         1. 처음 코드를 실행하는 순간 모든 것을 포함하는 전역 컨텍스트 생성(모든 것을 관리하는 환경, 페이지가 종료될 때 까지 유지됨)
         2. 함수를 호출할 때 마다 함수 컨텍스트가 하나씩 더 생김
 
@@ -30,7 +32,7 @@
         3. 컨텍스트 생성 후 함수가 실행되는데, 사용되는 변수들은 변수 객체 안에서 값을 찾고, 없다면 스코프 체인을 따라 올라가며 찾는다.
         4. 함수 실행이 마무리되면 해당 컨텍스트는 사라진다.(클로져 제외), 페이지가 종요되면 전역 컨텍스트가 사라진다.
      */
-    /* 
+	/* 
         * 전역 컨텍스트
         전역 컨텍스트가 생성된 후 두 번째 원칙에 따라 변수객체, scope chain, this가 들어온다.
         전역 컨텍스트는 arguments가 없고, variable은 해당 스코프의 변수들(name, wow, say)
@@ -42,35 +44,35 @@
         -> 일반 함수의 this가 window인 이유(원래 기본적으로 window 이고 new나 bind같은 걸로 this를 바꾸는 것)
      */
 
-    // 전역 컨텍스트를 객체 형식으로 표현
-    const globalContext = {
-        variableObj: {
-            arguments: null,
-            variable: ['name', 'wow', 'say']
-        },
-        scopeChain: ['globalVariableObj'], // 전역변수객체
-        this: 'window',
-    };
-    /* 
+	// 전역 컨텍스트를 객체 형식으로 표현
+	const globalContext = {
+		variableObj: {
+			arguments: null,
+			variable: ['name', 'wow', 'say'],
+		},
+		scopeChain: ['globalVariableObj'], // 전역변수객체
+		this: global.window,
+	};
+	/* 
         코드를 위에서부터 실행하면 wow, say는 호이스팅 때문에 선언과 동시에 대입이 되고 그 다음 variable의 name에 'zero'가 대입된다.
         variable: [{ name:'zero' },{ wow:Function }, { say:Function } ]
      */
-    /* 
+	/* 
         * 함수 컨텍스트
         그 후 (7)번에서 say(); 를 하는 순간 새로운 컨텍스트인 say 함수 컨텍스트가 생성됨. 아까 전역 컨텍스트는 그대로 있음
         arguments는 없고, variable은 name, scope chain은 say 변수 객체와 상위의 전역 변수 객체
         this는 따로 지정해주지 않았으므로 window
      */
-    const sayContext = {
-        variableObj: {
-            arguments: null,
-            variable: ['name'], // 초기화 후에 [{name: 'nero'}]
-        },
-        scopeChain: ['sayVariableObj', 'globalVariableObj'],
-        this: 'window'
-    };
+	const sayContext = {
+		variableObj: {
+			arguments: null,
+			variable: ['name'], // 초기화 후에 [{name: 'nero'}]
+		},
+		scopeChain: ['sayVariableObj', 'globalVariableObj'],
+		this: global.window,
+	};
 
-    /* 
+	/* 
         say()를 호출한 후 위에서부터 차례대로 (8), (9), (10)을 실행
         variable의 name에 nero를 대입하고나서
         console.log(name);이 있다. name 변수는 say context 안에서 찾으면 됨 -> name:'nero'라고 되어있으니
@@ -86,15 +88,15 @@
         variable은 없고, this는 window
      */
 
-    const wowContext = {
-        variableObj: {
-            arguments: [{ word: 'hello' }],
-            variable: null,
-        },
-        scopeChain: ['wowVariableObj', 'globalVariableObj'],
-        this: 'window'
-    };
-    /* 
+	const wowContext = {
+		variableObj: {
+			arguments: [{ word: 'hello' }],
+			variable: null,
+		},
+		scopeChain: ['wowVariableObj', 'globalVariableObj'],
+		this: global.window,
+	};
+	/* 
         이러한 컨텍스트가 생긴 후 함수가 실행됨. say 함수는 아직 종료된 게 아님.
         wow()의 console.log(word + ' ' + name)의 word와 name은 wow컨텍스트에서 찾는다.
         word는 arguments에 작성되어있고 name은 없으니 scope chain을 따라 올라가 global에서 찾는다.
@@ -114,44 +116,135 @@
  */
 console.log('-----------------------------------------------');
 {
-    console.log(zero); // undefined
-    sayWow(); // wow
-    function sayWow() {
-        console.log('wow');
-    }
-    var zero = 'zero';
+	console.log(zero); // undefined
+	sayWow(); // wow
+	function sayWow() {
+		console.log('wow');
+	}
+	var zero = 'zero';
 }
 // 위 코드와 아래 코드는 같다
 {
-    function sayWow() {
-        console.log('wow');
-    }
-    var zero;
-    console.log(zero);
-    sayWow();
-    zero = 'zero';
+	function sayWow() {
+		console.log('wow');
+	}
+	var zero;
+	console.log(zero);
+	sayWow();
+	zero = 'zero';
 }
 // BUT 함수표현식으로 작성한 경우엔 에러가 발생함
 {
-    sayWow(); // (3)
-    sayYeah(); // (5) 여기서 대입되기 전에 호출해서 에러
-    var sayYeah = function () { // (1) 선언 (6) 대입
-        console.log('yeah');
-    };
-    function sayWow() { // (2) 선언과 동시에 초기화(호이스팅)
-        console.log('wow'); // (4)
-    }
+	sayWow(); // (3)
+	// sayYeah(); // (5) 여기서 대입되기 전에 호출해서 에러
+	var sayYeah = function () {
+		// (1) 선언 (6) 대입
+		console.log('yeah');
+	};
+	function sayWow() {
+		// (2) 선언과 동시에 초기화(호이스팅)
+		console.log('wow'); // (4)
+	}
 
-    {   // 이런 형태로 생성되므로 오류
-        const globalContext = {
-            variableObj: {
-                arguments: null,
-                variable: [{ sayWow: Function }, 'sayYeah'],
-            },
-            scopeChain: ['globalVariableObj'],
-            this: window
-        };
-    }
+	{
+		// 이런 형태로 생성되므로 오류
+		const globalContext = {
+			variableObj: {
+				arguments: null,
+				variable: [{ sayWow: Function }, 'sayYeah'],
+			},
+			scopeChain: ['globalVariableObj'],
+			this: global.window,
+		};
+	}
 
-    // 어.... 뭔소린가 했더니 var sayYeah가 먼저 선언이 되고 그 후에 나중에 function(){} 어쩌고가 대입이 되기 때문에 안된다는 것
+	// 어.... 뭔소린가 했더니 var sayYeah가 먼저 선언이 되고 그 후에 나중에 function(){} 어쩌고가 대입이 되기 때문에 안된다는 것
+}
+
+// after ES2015
+{
+	let name = 'zero';
+	let age = 29;
+	const wow = (word) => {
+		let name = 'nero';
+		if (true) {
+			// (2)
+			let name = 'hello';
+			console.log(age);
+		}
+		console.log(word + ' ' + name); // (3)
+	};
+
+	wow('hi'); // (1)
+
+	const globalContext = {
+		variableObj: {
+			arguments: null,
+			variable: [{ name: 'zero' }, { age: 28 }, { wow: '함수' }],
+		},
+		scopeChain: ['전역 변수객체'],
+		this: global.window,
+	};
+
+	const wowContext = {
+		variableObj: {
+			arguments: ['hi'],
+			variable: [{ name: 'nero' }],
+		},
+		scopeChain: ['전역 변수객체', 'wow 변수객체'],
+		this: global.window,
+	};
+
+	const ifBlockContext = {
+		variableObj: {
+			variable: [{ name: 'hello' }],
+		},
+		scopeChain: ['전역 변수객체', 'wow 변수객체', 'if 블록 변수객체'],
+	};
+}
+// for loop의 컨텍스트
+{
+	for (let i = 0; i < 3; i++) {
+		setTimeout(() => {
+			console.log(`let i: ${i}`); // 0, 1, 2
+		});
+	}
+
+	// var는 전역 컨텍스트에 생성된다.
+	for (var i = 0; i < 3; i++) {
+		setTimeout(() => {
+			console.log(`var i: ${i}`); // 3, 3, 3
+		});
+	}
+
+	const globalContext = {
+		variableObj: {
+			arguments: null,
+			variable: null,
+		},
+		scopeChain: ['전역 변수객체'],
+		this: global.window,
+	};
+
+	const i0Context = {
+		variable: [{ i: 0 }], // obj 아님!! 작성만 이렇게 한거임
+		scopeChain: ['전역 변수객체', 'for i=0 변수객체'],
+	};
+	const i1Context = {
+		variable: [{ i: 1 }], // obj 아님!! 작성만 이렇게 한거임
+		scopeChain: ['전역 변수객체', 'for i=1 변수객체'],
+	};
+	const i2Context = {
+		variable: [{ i: 2 }], // obj 아님!! 작성만 이렇게 한거임
+		scopeChain: ['전역 변수객체', 'for i=2 변수객체'],
+	};
+	const sto0Context = {
+		scopeChain: ['전역 변수객체', 'for i=0 변수객체', 'setTimeout 변수객체'],
+	};
+	const sto1Context = {
+		scopeChain: ['전역 변수객체', 'for i=1 변수객체', 'setTimeout 변수객체'],
+	};
+	const sto2Context = {
+		scopeChain: ['전역 변수객체', 'for i=2 변수객체', 'setTimeout 변수객체'],
+	};
 }

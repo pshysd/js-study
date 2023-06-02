@@ -1,4 +1,4 @@
-import { sayHi } from "./js-tutorial/sayHi.js";
+import { sayHi } from "./sayHi.js";
 
 console.log(sayHi);
 sayHi('john');

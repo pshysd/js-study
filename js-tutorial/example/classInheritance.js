@@ -104,27 +104,7 @@
 			name = 'rabbit';
 		}
 
-		new Animal(); // animal
-		new Rabbit(); // animal ?
+		new Animal();
+		new Rabbit();
 	}
-
-	// 클래스 필드 대신 메서드로 비교
-	{
-		class Animal {
-			showName() {
-				console.log('animal');
-			}
-		}
-
-		class Rabbit extends Animal {
-			showName() {
-				console.log('rabbit');
-			}
-		}
-
-		new Animal().showName(); // animal
-		new Rabbit().showName(); // rabbit
-	}
-
-	// 메서드를 사용하거나 getter나 setter를 사용해서 해결해야 함
 }
